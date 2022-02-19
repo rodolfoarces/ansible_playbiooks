@@ -1,0 +1,11 @@
+---
+- hosts: ubuntu 
+  tasks:
+  - name: Package installation
+    apt:
+      name:
+        - rsync
+        - wget
+        - ca-certificates
+        - vim-nox
+      state: latest

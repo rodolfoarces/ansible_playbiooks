@@ -1,0 +1,12 @@
+---
+- hosts: centos
+  tasks:
+  - name: Actualizacion de SO
+    dnf:
+      name: '*'
+      state: latest
+
+  - name: Instalacion de Python3
+    dnf:
+      name: python3
+      state: latest

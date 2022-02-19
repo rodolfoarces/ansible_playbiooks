@@ -1,0 +1,17 @@
+---
+- hosts: centos
+  tasks:
+  - name: Package installation for AD join
+    dnf:
+      name:
+        - realmd
+        - sssd
+        - oddjob
+        - oddjob-mkhomedir
+        - adcli
+        - samba-common
+        - samba-common-tools
+        - krb5-workstation
+        - authselect-compat
+      state: latest
+
