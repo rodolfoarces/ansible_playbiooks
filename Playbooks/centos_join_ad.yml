@@ -39,19 +39,20 @@
     
   - name: Allow given groups to authenticate
     - command: "realm permit -g 'Domain Admins'"
+
+  - name: Replace fully qualified names
+    replace:
+      path: /etc/sssd/sssd.conf 
+      regexp: '(\s+)use_fully_qualified_names = True'
+      replace: "\nuse_fully_qualified_names = False"
+      backup: no
   
-  - name: Replace authentication and home directory
-    - replace:
-        path: /etc/sssd/sssd.conf 
-        regexp: '(\s+)use_fully_qualified_names = True'
-        replace: 'use_fully_qualified_names = False'
-        backup: no
-    
-    - replace:
-        path:  /etc/sssd/sssd.conf 
-        regexp: '(\s+)fallback_homedir = /home/%u@%d'
-        replace: 'fallback_homedir = /home/%u'
-        backup: no
+  - name: Replace home directory policy
+    replace:
+      path:  /etc/sssd/sssd.conf 
+      regexp: '(\s+)fallback_homedir = /home/%u@%d'
+      replace: "\nfallback_homedir = /home/%u"
+      backup: no
 
   - name: Update authentications methods to allow Ad
     - command: "authconfig --enablesssd --enablesssdauth --enablemkhomedir --update"
