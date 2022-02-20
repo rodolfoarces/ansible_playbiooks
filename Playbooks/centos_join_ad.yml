@@ -1,5 +1,18 @@
 ---
 - hosts: centos
+  vars_prompt:
+    - name: domain
+      prompt: Domain to join?
+      private: no
+      
+    - name: username
+      prompt: Domain admin to join domain?
+      private: no
+
+    - name: password
+      prompt: Domain admin password to join domain?
+      unsafe: yes
+      
   tasks:
   - name: Package installation for AD join
     dnf:
@@ -15,3 +28,14 @@
         - authselect-compat
       state: latest
 
+  - name: Copy sudoers files
+    copy:
+        src: Files/sudo/sudo_admin
+        dest: /etc/sudoers.d/sudo_admin
+        backup: yes
+        
+  - name: Join domain with adcli
+    - command: "echo {{ password }} | adcli join --login-user={{ username }} --domain={{ domain }} --stdin-password "
+    
+  - name: Update authentications methods to allow Ad
+    - command: "authconfig --enablesssd --enablesssdauth --enablemkhomedir --update"
