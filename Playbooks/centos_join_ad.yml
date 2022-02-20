@@ -31,11 +31,27 @@
   - name: Copy sudoers files
     copy:
         src: Files/sudo/sudo_admin
-        dest: /etc/sudoers.d/sudo_admin
+        dest: /etc/sudoers.d/sudo_domain_admins
         backup: yes
         
   - name: Join domain with adcli
     - command: "echo {{ password }} | adcli join --login-user={{ username }} --domain={{ domain }} --stdin-password "
     
+  - name: Allow given groups to authenticate
+    - command: "realm permit -g 'Domain Admins'"
+  
+  - name: Replace authentication and home directory
+    - replace:
+        path: /etc/sssd/sssd.conf 
+        regexp: '(\s+)use_fully_qualified_names = True'
+        replace: 'use_fully_qualified_names = False'
+        backup: no
+    
+    - replace:
+        path:  /etc/sssd/sssd.conf 
+        regexp: '(\s+)fallback_homedir = /home/%u@%d'
+        replace: 'fallback_homedir = /home/%u'
+        backup: no
+
   - name: Update authentications methods to allow Ad
     - command: "authconfig --enablesssd --enablesssdauth --enablemkhomedir --update"
