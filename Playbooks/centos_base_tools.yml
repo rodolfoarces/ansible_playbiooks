@@ -10,3 +10,23 @@
     dnf:
       name: python3
       state: latest
+
+  - name: Asegurarse de que existe el grupo "admin"
+    ansible.builtin.group:
+      name: admin
+      state: present
+
+  - name: Crear el usuario Administrador, asignarle el grupo, y crear una llave privada SSH
+    ansible.builtin.user:
+      name: administrador
+      generate_ssh_key: yes
+      ssh_key_bits: 4096
+      ssh_key_file: ".ssh/id_rsa-{{ inventory_hostname }}"
+      groups: admin, wheel
+      append: yes
+
+  - name: Copiar archivo sudoers
+    copy:
+      src: "{{ playbook_dir }}/../Files/sudo/sudo_admin"
+      dest: "/etc/sudoers.d/sudo_admin"
+      backup: no
