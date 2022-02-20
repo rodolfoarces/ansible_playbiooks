@@ -29,10 +29,10 @@
       state: latest
 
   - name: Copy sudoers files
-    copy:
+      copy:
         src: Files/sudo/sudo_admin
         dest: /etc/sudoers.d/sudo_domain_admins
-        backup: yes
+        backup: no
         
   - name: Join domain with adcli
     - command: "echo {{ password }} | adcli join --login-user={{ username }} --domain={{ domain }} --stdin-password "
