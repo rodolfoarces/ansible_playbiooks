@@ -1,10 +1,16 @@
 all:
     children:
         ubuntu:
-            hosts:
-                ubuntu.server.local:
-            vars:
-                ansible_python_interpreter=/usr/bin/python3
+            children:
+                ubuntu2004:
+                    hosts:
+                        ubuntu.server.local:
+                    vars:
+                        ansible_python_interpreter=/usr/bin/python3
         centos:
-            hosts:
-                centos.server.local:
+            children:
+                centos8:
+                    hosts:
+                        centos.server.local:
+                    vars:
+                        ansible_python_interpreter=/usr/bin/python3
