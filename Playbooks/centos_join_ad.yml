@@ -4,7 +4,7 @@
     - name: domain
       prompt: Domain to join?
       private: no
-      
+
     - name: username
       prompt: Domain admin to join domain?
       private: no
@@ -12,7 +12,7 @@
     - name: password
       prompt: Domain admin password to join domain?
       unsafe: yes
-      
+
   tasks:
   - name: Package installation for AD join
     dnf:
@@ -27,7 +27,7 @@
         - krb5-workstation
         - authselect-compat
       state: latest
-  
+
   - name: Enable SSSD service
     ansible.builtin.service:
       name: sssd
@@ -43,27 +43,27 @@
       src: Files/sudo/sudo_domain_admin
       dest: /etc/sudoers.d/sudo_domain_admins
       backup: no
-        
+
   - name: Join domain with adcli
-    - command: "echo {{ password }} | adcli join --login-user={{ username }} --domain={{ domain }} --stdin-password "
-    
+    - command: "echo {{ password }} | realm join --user={{ username }} {{ domain }} --unattended  "
+
   - name: Allow given groups to authenticate
     - command: "realm permit -g 'Domain Admins'"
 
   - name: Replace fully qualified names
     replace:
-      path: /etc/sssd/sssd.conf 
+      path: /etc/sssd/sssd.conf
       regexp: '(\s+)use_fully_qualified_names = True'
       replace: "\nuse_fully_qualified_names = False"
       backup: no
-  
+
   - name: Replace home directory policy
     replace:
-      path:  /etc/sssd/sssd.conf 
+      path:  /etc/sssd/sssd.conf
       regexp: '(\s+)fallback_homedir = /home/%u@%d'
       replace: "\nfallback_homedir = /home/%u"
       backup: no
-  
+
   - name: Restart service aftes config change
     ansible.builtin.service:
       name: sssd

@@ -25,6 +25,15 @@
       groups: admin, wheel
       append: yes
 
+  - name: Copiar archivo de llaves publicas
+    copy:
+      src: "{{ playbook_dir }}/../Files/authorized_keys"
+      dest: "/home/administrador/.ssh/authorized_keys"
+      backup: no
+      owner: administrador
+      group: administrador
+      mode: 0600
+      
   - name: Copiar archivo sudoers
     copy:
       src: "{{ playbook_dir }}/../Files/sudo/sudo_admin"
