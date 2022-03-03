@@ -1,5 +1,5 @@
 ---
-- hosts: centos8
+- hosts: ubuntu
   vars_prompt:
     - name: domain
       prompt: Domain to join?
@@ -15,27 +15,19 @@
 
   tasks:
   - name: Package installation for AD join
-    dnf:
+    apt:
       name:
+        - sssd-ad
+        - sssd-tools
         - realmd
-        - sssd
-        - oddjob
-        - oddjob-mkhomedir
         - adcli
-        - samba-common
-        - samba-common-tools
-        - krb5-workstation
-        - authselect-compat
+        - krb5-user
+        - sssd-krb5
       state: present
 
   - name: Enable SSSD service
     ansible.builtin.service:
       name: sssd
-      enabled: yes
-
-  - name: Enable Oddjobd service
-    ansible.builtin.service:
-      name: oddjobd
       enabled: yes
 
   - name: Copy sudoers files

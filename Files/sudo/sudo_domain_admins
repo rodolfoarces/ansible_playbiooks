@@ -1,2 +1,2 @@
-%domain admins ALL=(ALL) ALL
-%Domain Admins ALL=(ALL) ALL
+%domain\ admins   ALL=(ALL)   ALL
+%Domain\ Admins   ALL=(ALL)   ALL
