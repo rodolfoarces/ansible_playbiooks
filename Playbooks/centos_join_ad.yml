@@ -1,5 +1,5 @@
 ---
-- hosts: centos8
+- hosts: all
   vars_prompt:
     - name: domain
       prompt: Domain to join?
@@ -45,7 +45,7 @@
       backup: no
 
   - name: Join domain with adcli
-    command: "echo {{ password }} | realm join --user={{ username }} {{ domain }} --unattended"
+    command: "echo {{ password }} | sudo realm join --user={{ username }} {{ domain }} --unattended"
 
   - name: Allow given groups to authenticate
     command: "realm permit -g 'Domain Admins'"
