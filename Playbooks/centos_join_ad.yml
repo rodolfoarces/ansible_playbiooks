@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: centos
   vars_prompt:
     - name: domain
       prompt: Domain to join?
@@ -12,6 +12,10 @@
     - name: password
       prompt: Domain admin password to join domain?
       unsafe: yes
+    
+    - name: hostname
+      prompt: Hostname to set fot joining domain
+      private: no
 
   tasks:
   - name: Package installation for AD join
@@ -27,6 +31,11 @@
         - krb5-workstation
         - authselect-compat
       state: present
+  
+  - name: Set a hostname specifying strategy
+    ansible.builtin.hostname:
+      name: "{{ hostname }}"
+      use: systemd
 
   - name: Enable SSSD service
     ansible.builtin.service:
