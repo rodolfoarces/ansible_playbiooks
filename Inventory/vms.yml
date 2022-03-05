@@ -4,18 +4,18 @@ all:
             children:
                 ubuntu2004:
                     hosts:
-                        ubuntu.server.local:
+                        ubuntu.rodolfoarce.local:
                     vars:
                         ansible_python_interpreter=/usr/bin/python3
         redhat:
             children:
                 centos8:
                     hosts:
-                        centos8.server.local:
+                        centos8.rodolfoarce.local:
                     vars:
                         ansible_python_interpreter=/usr/bin/python3
                 redhat8:
                     hosts:
-                        redhat8.server.local:
+                        redhat8.rodolfoarce.local:
                     vars:
                         ansible_python_interpreter=/usr/bin/python3
