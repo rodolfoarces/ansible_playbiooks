@@ -1,0 +1,21 @@
+all:
+    children:
+        ubuntu:
+            children:
+                ubuntu2004:
+                    hosts:
+                        ubuntu.server.local:
+                    vars:
+                        ansible_python_interpreter=/usr/bin/python3
+        redhat:
+            children:
+                centos8:
+                    hosts:
+                        centos8.server.local:
+                    vars:
+                        ansible_python_interpreter=/usr/bin/python3
+                redhat8:
+                    hosts:
+                        redhat8.server.local:
+                    vars:
+                        ansible_python_interpreter=/usr/bin/python3
