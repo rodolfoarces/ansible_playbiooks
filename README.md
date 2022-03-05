@@ -47,6 +47,12 @@ ansible-playbook \
 -b ~/ansible_playbooks/Playbooks/centos_base_tools.yml
 ```
 
+Otra forma de usar es setear en el playbook que se aplique a "hosts: all" pero en el comando indicar que limite (--limit) sólo a ciertos
+
+```
+ansible-playbook -i Inventory/vms.yml --limit redhat8 Playbooks/centos_base_tools.yml --user=root
+```
+
 ## Licencia
 
 Todo el código está disponible bajo la [licencia](LICENSE) GNU GPL v3
